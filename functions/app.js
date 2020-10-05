@@ -8,6 +8,6 @@ const indexRouter = require('./src/routes')
 const app = express()
 
 app.use(cors({ origin: true }))
-app.use(indexRouter)
+app.use('/api', indexRouter)
 
 module.exports = app
