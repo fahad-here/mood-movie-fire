@@ -20,7 +20,10 @@ const signup = async (req, res, next) => {
 const requireAuth = async (req, res, next) => {
     try {
         const { authorization } = req.headers
-        await Firebase.Admin.auth().verifyIdToken(authorization)
+        const decodedToken = await Firebase.Admin.auth().verifyIdToken(
+            authorization
+        )
+        res.uid = decodedToken.uid
         return next()
     } catch (e) {
         e.status = 401
