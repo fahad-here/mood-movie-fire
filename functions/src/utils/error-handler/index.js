@@ -3,6 +3,7 @@ const ResponseMessage = require('../response-message')
 const RouteErrorHandler = (err, req, res, next) => {
     // set locals, only providing error in development
     if (env.NODE_ENV === 'production') {
+        console.log('production')
     } else {
         console.info('Error')
         console.info(err)
