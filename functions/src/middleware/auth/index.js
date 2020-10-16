@@ -39,20 +39,20 @@ const provideAdminAccessOnCreate = (user) => {
         }
         return Firebase.Admin.auth()
             .setCustomUserClaims(user.uid, customClaims)
-            .then(() => {
-                // Update real-time database to notify client to force refresh.
-                const metadataRef = Firebase.Admin.database().ref(
-                    'genre/' + user.uid
-                )
-                // Set the refresh time to the current UTC timestamp.
-                // This will be captured on the client to force a token refresh.
-                return metadataRef.set({ refreshTime: new Date().getTime() })
-            })
             .catch((error) => {
                 console.log(error)
             })
     } else {
-        console.log('user not ending with fahadhere')
+        const customClaims = {
+            user: true,
+            accessLevel: 3
+        }
+        return Firebase.Admin.auth()
+            .setCustomUserClaims(user.uid, customClaims)
+
+            .catch((error) => {
+                console.log(error)
+            })
     }
 }
 
