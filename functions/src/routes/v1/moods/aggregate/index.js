@@ -9,7 +9,11 @@ aggregateController.post(
     AggregateMiddleware.createMood
 )
 
-aggregateController.get('/')
+aggregateController.get(
+    '/',
+    AuthMiddleware.requireAuth,
+    AggregateMiddleware.getAllAggregateMoods
+)
 
 aggregateController.put(
     '/:id',
@@ -17,6 +21,10 @@ aggregateController.put(
     AggregateMiddleware.editMood
 )
 
-aggregateController.delete('/:id')
+aggregateController.delete(
+    '/:id',
+    AuthMiddleware.requireAuth,
+    AggregateMiddleware.deleteMood
+)
 
 module.exports = aggregateController
