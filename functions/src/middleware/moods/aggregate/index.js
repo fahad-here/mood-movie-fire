@@ -78,7 +78,82 @@ async function editMood(req, res, next) {
     }
 }
 
+async function deleteMood(req,res,next){
+    try {
+        const id = req.params.id
+        const check = await db.collection(aggregateMoodCollection).doc(id).get()
+        if (!check.exists) {
+            return res
+                .status(404)
+                .json(
+                    ResponseMessage(true, 'This Aggregate mood does not exists')
+                )
+        }
+        await db.collection(aggregateMoodCollection).doc(id).delete()
+        return res.status(200).json(
+            ResponseMessage(false, 'Successfully deleted aggregate mood', {
+                id
+            })
+        )
+    } catch (e) {
+        e.status = 500
+        return next(e)
+    }
+}
+
+async function getAggregateMood(req,res,next){
+    try {
+        const id = req.params.id
+        let check = await db.collection(aggregateMoodCollection).doc(id).get()
+        if (!check.exists) {
+            return res
+                .status(404)
+                .json(
+                    ResponseMessage(true, 'This Aggregate mood does not exists')
+                )
+        }
+        let mood = {
+            ...check.data(),
+            id
+        }
+        await db.collection(aggregateMoodCollection).doc(id).delete()
+        return res.status(200).json(
+            ResponseMessage(false, 'Successfully deleted aggregate mood', {
+                mood
+            })
+        )
+    } catch (e) {
+        e.status = 500
+        return next(e)
+    }
+}
+
+async function getAllAggregateMoods(req,res,next){
+    try {
+        let snapshot = await db.collection(aggregateMoodCollection).get()
+        let moods = []
+        snapshot.forEach(doc=>{
+            let mood = {
+                ...doc.data(),
+                id: doc.id
+            }
+            moods.push(mood)
+        })
+        return res.status(200).json(
+            ResponseMessage(false, 'Successfully fetched all aggregate moods', {
+                moods
+            })
+        )
+    } catch (e) {
+        e.status = 500
+        return next(e)
+    }
+}
+
 module.exports = {
     createMood,
-    editMood
+    editMood,
+    deleteMood,
+    getAggregateMood,
+    getAllAggregateMoods
 }
