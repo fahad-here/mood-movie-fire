@@ -11,7 +11,11 @@ aggregateController.post(
 
 aggregateController.get('/')
 
-aggregateController.put('/:id')
+aggregateController.put(
+    '/:id',
+    AuthMiddleware.requireAuth,
+    AggregateMiddleware.editMood
+)
 
 aggregateController.delete('/:id')
 

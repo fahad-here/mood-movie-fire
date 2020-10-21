@@ -1,7 +1,11 @@
 {
   "parserOptions": {
     // Required for certain syntax usages
-    "ecmaVersion": 2017
+    "ecmaVersion": 2017,
+    "ecmaFeatures": {
+      "modules": true,
+      "experimentalObjectRestSpread": true
+    }
   },
   "plugins": [
     "promise"
